@@ -12,7 +12,7 @@ public class Jogo extends JFrame implements ActionListener {
     JPanel p4 = new JPanel();
     JPanel p5 = new JPanel();
 
-    JLabel lbJogador = new JLabel("Jogador preto");
+    JLabel lbJogador = new JLabel("PC");
     JLabel lbTempo = new JLabel("00:00");
 
     Casa casa[][] = new Casa[8][8];
@@ -295,8 +295,7 @@ public class Jogo extends JFrame implements ActionListener {
 
     public void proximaRodada()
     {
-        if(Cadastro.jogador[0].getPecas() != 0 && Cadastro.jogador[1].getPecas() != 0)
-        {
+        if(Cadastro.jogador[0].getPecas() != 0 && Cadastro.jogador[1].getPecas() != 0) {
             lbJogador.setText("Jogador " + Cadastro.jogador[jogadorDaRodada].getNome());
             if(jogadorDaRodada == 1)
                 jogadorDaRodada = 0;
@@ -308,16 +307,14 @@ public class Jogo extends JFrame implements ActionListener {
             else
                 marcarPecas();
         }
-        else
-        {
+        else {
             int vencedor = -1;
             if(Cadastro.jogador[0].getPecas() == 0)
                 vencedor = 0;
             else
                 vencedor = 1;
 
-            if(vencedor != -1)
-            {
+            if(vencedor != -1) {
                 timer.stop();
                 if(Cadastro.jogador[vencedor].getMelhorTempo() > tempo)
                     Cadastro.jogador[vencedor].setMelhorTempo(tempo);
@@ -333,27 +330,23 @@ public class Jogo extends JFrame implements ActionListener {
 
     public void jogadaPC() {
         boolean Comer = false;
-        for(int i = 0; i < 12 && !Comer; i++)
-        {
-            if(peca[i].emJogo())
-            {
+        for(int i = 0; i < 12 && !Comer; i++) {
+            if(peca[i].emJogo()) {
                 int I = peca[i].getPosI(), J = peca[i].getPosJ();
 
                 limparJogadas();
-                if(simularJogada(peca[i].getPosI(), peca[i].getPosJ(), true, true, true, true, true, 0, "", peca[i].dama(), "") && indJogada > 0)//Marcando as pecas envolvidas no movimento de comer
-                {
+                //Marcando as pecas envolvidas no movimento de comer
+                if(simularJogada(peca[i].getPosI(), peca[i].getPosJ(), true, true, true, true, true, 0, "", peca[i].dama(), "") && indJogada > 0){
                     int x = rand.nextInt(indJogada);
                     if(maioresJogadas[x].charAt(maioresJogadas[x].length()-1) == '/')
                         maioresJogadas[x] = maioresJogadas[x].substring(0, maioresJogadas[x].length()-1);
-
                     I = 0;
                     J = 0;
                     int y;
                     String indComer[] = maioresJogadas[x].split("/");
 
                     Casa casaComer = null, casaMover = null;
-                    for(y = 1; y < indComer.length; y += 2)
-                    {
+                    for(y = 1; y < indComer.length; y += 2) {
                         I = Integer.parseInt(indComer[y-1]);
                         J = Integer.parseInt(indComer[y]);
 
@@ -362,8 +355,7 @@ public class Jogo extends JFrame implements ActionListener {
                         else
                             casaMover = casa[I][J];
 
-                        if(casaComer != null && casaMover != null)
-                        {
+                        if(casaComer != null && casaMover != null) {
                             bTimer.setComer(casa[peca[i].getPosI()][peca[i].getPosJ()], casaComer, casaMover);
                             casaComer = null;
                             casaMover = null;
@@ -375,31 +367,25 @@ public class Jogo extends JFrame implements ActionListener {
             }
         }
 
-        if(!Comer)
-        {
-            for(int i = 0; i < 12; i++)
-            {
-                if(peca[i].emJogo())
-                {
-                    if(!peca[i].dama())
-                    {
+        if(!Comer) {
+            for(int i = 0; i < 12; i++) {
+                if(peca[i].emJogo()) {
+                    if(!peca[i].dama()) {
                         int I = peca[i].getPosI(), J = peca[i].getPosJ();
-                        if(I <= 6 && J <= 6 && casa[I+1][J+1].vazia())
-                        {
+                        if(I <= 6 && J <= 6 && casa[I+1][J+1].vazia()) {
                             bTimer.setMove(casa[I][J], casa[I+1][J+1]);
                             bTimer.start();
                             break;
                         }
 
-                        if(I <= 6 && J >= 1 && casa[I+1][J-1].vazia())
-                        {
+                        if(I <= 6 && J >= 1 && casa[I+1][J-1].vazia()) {
                             bTimer.setMove(casa[I][J], casa[I+1][J-1]);
                             bTimer.start();
                             break;
                         }
                     }
-                    else//Dama
-                    {
+                    //Dama
+                    else{
 
                     }
                 }
@@ -419,14 +405,12 @@ public class Jogo extends JFrame implements ActionListener {
 
     public void comerPeca(Casa comedor, Casa futura) {
         int indiceJogada = -1;
-        for(int x = 0; x < indJogada; x++)
-        {
+        for(int x = 0; x < indJogada; x++) {
             String indComer[] = maioresJogadas[x].split("/");
             if(maioresJogadas[x].length() > 0 && maioresJogadas[x].charAt(maioresJogadas[x].length()-1) == '/')
                 indComer = maioresJogadas[x].substring(0, maioresJogadas[x].length()-1).split("/");
 
-            if(Integer.parseInt(indComer[indComer.length-2]) == futura.getPosI() && Integer.parseInt(indComer[indComer.length-1]) == futura.getPosJ())
-            {
+            if(Integer.parseInt(indComer[indComer.length-2]) == futura.getPosI() && Integer.parseInt(indComer[indComer.length-1]) == futura.getPosJ()) {
                 indiceJogada = x;
                 break;
             }
@@ -452,8 +436,7 @@ public class Jogo extends JFrame implements ActionListener {
                     y += 2;
                 }
 
-                if(casaComer != null)
-                {
+                if(casaComer != null) {
                     y += 2;
                     I = Integer.parseInt(indComer[y-1]);
                     J = Integer.parseInt(indComer[y]);
@@ -476,8 +459,7 @@ public class Jogo extends JFrame implements ActionListener {
         proximaRodada();
     }
 
-    public boolean simularJogada(int i, int j, boolean f1, boolean f2, boolean t2, boolean t1, boolean mover, int tamanho, String mov, boolean dama, String pecasComidas)
-    {
+    public boolean simularJogada(int i, int j, boolean f1, boolean f2, boolean t2, boolean t1, boolean mover, int tamanho, String mov, boolean dama, String pecasComidas) {
         boolean comer = false;
         boolean movDiagonal = false;
         //Comendo para frente
@@ -489,8 +471,7 @@ public class Jogo extends JFrame implements ActionListener {
                 movDiagonal = true;
         }
 
-        if(i >= 2 && j <= 5 && f2 && !casa[i-1][j+1].vazia() && casa[i-1][j+1].pecaAtual().getTipo() != jogadorDaRodada && casa[i-2][j+2].vazia() && !pecasComidas.contains(String.format("%d-%d/", i-2, j+2)) && !movDiagonal)
-        {
+        if(i >= 2 && j <= 5 && f2 && !casa[i-1][j+1].vazia() && casa[i-1][j+1].pecaAtual().getTipo() != jogadorDaRodada && casa[i-2][j+2].vazia() && !pecasComidas.contains(String.format("%d-%d/", i-2, j+2)) && !movDiagonal) {
             simularJogada(i-2, j+2, true, true, true, false, true, tamanho+1, mov + String.format("%d/%d/%d/%d/", i-1, j+1, i-2, j+2), dama, pecasComidas + String.format("%d-%d/", i-2, j+2));
             comer = true;
 
@@ -499,8 +480,7 @@ public class Jogo extends JFrame implements ActionListener {
         }
 
         //Comendo para tras
-        if(i <= 5 && j >= 2 && t1 && !casa[i+1][j-1].vazia() && casa[i+1][j-1].pecaAtual().getTipo() != jogadorDaRodada && casa[i+2][j-2].vazia() && !pecasComidas.contains(String.format("%d-%d/", i+2, j-2)) && !movDiagonal)
-        {
+        if(i <= 5 && j >= 2 && t1 && !casa[i+1][j-1].vazia() && casa[i+1][j-1].pecaAtual().getTipo() != jogadorDaRodada && casa[i+2][j-2].vazia() && !pecasComidas.contains(String.format("%d-%d/", i+2, j-2)) && !movDiagonal) {
             simularJogada(i+2, j-2, true, false, true, true, true, tamanho+1, mov + String.format("%d/%d/%d/%d/", i+1, j-1, i+2, j-2), dama, pecasComidas + String.format("%d-%d/", i+2, j-2));
             comer = true;
 
@@ -508,8 +488,7 @@ public class Jogo extends JFrame implements ActionListener {
                 movDiagonal = true;
         }
 
-        if(i <= 5 && j <= 5 && t2 && !casa[i+1][j+1].vazia() && casa[i+1][j+1].pecaAtual().getTipo() != jogadorDaRodada && casa[i+2][j+2].vazia() && !pecasComidas.contains(String.format("%d-%d/", i+2, j+2)) && !movDiagonal)
-        {
+        if(i <= 5 && j <= 5 && t2 && !casa[i+1][j+1].vazia() && casa[i+1][j+1].pecaAtual().getTipo() != jogadorDaRodada && casa[i+2][j+2].vazia() && !pecasComidas.contains(String.format("%d-%d/", i+2, j+2)) && !movDiagonal) {
             simularJogada(i+2, j+2, false, true, true, true, true, tamanho+1, mov + String.format("%d/%d/%d/%d/", i+1, j+1, i+2, j+2), dama, pecasComidas + String.format("%d-%d/", i+2, j+2));
             comer = true;
 
@@ -518,18 +497,14 @@ public class Jogo extends JFrame implements ActionListener {
         }
 
 
-        if(!comer && mover && dama && !movDiagonal)
-        {
+        if(!comer && mover && dama && !movDiagonal) {
             String movAux = mov;
-            if(i >= 1 && j >= 1 && f1 && casa[i-1][j-1].vazia())
-            {
+            if(i >= 1 && j >= 1 && f1 && casa[i-1][j-1].vazia()) {
                 //Verificando o movimento para cima e esquerda
-                for(int I = i-1, J = j-1; I >= 0 && J >= 0; I--, J--)
-                {
+                for(int I = i-1, J = j-1; I >= 0 && J >= 0; I--, J--) {
                     if(!casa[I][J].vazia())
                         break;
-                    else
-                    {
+                    else {
                         mov += String.format("%d/%d/%d/%d/", I, J, I, J);
                         comer = simularJogada(I, J, true, true, false, true, false, tamanho, mov, dama, pecasComidas);
                     }
@@ -537,15 +512,12 @@ public class Jogo extends JFrame implements ActionListener {
                 mov = movAux;
             }
 
-            if(i >= 1 && j <= 6 && f2 && casa[i-1][j+1].vazia())
-            {
+            if(i >= 1 && j <= 6 && f2 && casa[i-1][j+1].vazia()) {
                 //Verificando o movimento para cima e direita
-                for(int I = i-1, J = j+1; I >= 0 && J <= 7; I--, J++)
-                {
+                for(int I = i-1, J = j+1; I >= 0 && J <= 7; I--, J++) {
                     if(!casa[I][J].vazia())
                         break;
-                    else
-                    {
+                    else {
                         mov += String.format("%d/%d/%d/%d/", I, J, I, J);
                         comer = simularJogada(I, J, true, true, true, false, false, tamanho, mov, dama, pecasComidas);
                     }
@@ -553,15 +525,12 @@ public class Jogo extends JFrame implements ActionListener {
                 mov = movAux;
             }
 
-            if(i <= 6 && j >= 1 && t1 && casa[i+1][j-1].vazia())
-            {
+            if(i <= 6 && j >= 1 && t1 && casa[i+1][j-1].vazia()) {
                 //Verificando o movimento para baixo e direita
-                for(int I = i+1, J = j-1; I <= 7 && J >= 0; I++, J--)
-                {
+                for(int I = i+1, J = j-1; I <= 7 && J >= 0; I++, J--) {
                     if(!casa[I][J].vazia())
                         break;
-                    else
-                    {
+                    else {
                         mov += String.format("%d/%d/%d/%d/", I, J, I, J);
                         comer = simularJogada(I, J, true, false, true, true, false, tamanho, mov, dama, pecasComidas);
                     }
@@ -569,14 +538,11 @@ public class Jogo extends JFrame implements ActionListener {
                 mov = movAux;
             }
 
-            if(i <= 6 && j <= 6 && t2 && casa[i+1][j+1].vazia())
-            {
-                for(int I = i+1, J = j+1; I <= 7 && J <= 7; I++, J++)
-                {
+            if(i <= 6 && j <= 6 && t2 && casa[i+1][j+1].vazia()) {
+                for(int I = i+1, J = j+1; I <= 7 && J <= 7; I++, J++) {
                     if(!casa[I][J].vazia())
                         break;
-                    else
-                    {
+                    else {
                         mov += String.format("%d/%d/%d/%d/", I, J, I, J);
                         comer = simularJogada(I, J, false, true, true, true, false, tamanho, mov, dama, pecasComidas);
                     }
@@ -585,14 +551,12 @@ public class Jogo extends JFrame implements ActionListener {
             }
         }
 
-        if(tamanho > maiorTamanho)
-        {
+        if(tamanho > maiorTamanho) {
             maiorTamanho = tamanho;
             maioresJogadas[indJogada = 0] = mov;
             indJogada++;
         }
-        else if(tamanho == maiorTamanho && indJogada < 10)
-        {
+        else if(tamanho == maiorTamanho && indJogada < 10) {
             maioresJogadas[indJogada++] = mov;
         }
         return comer;
@@ -608,8 +572,7 @@ public class Jogo extends JFrame implements ActionListener {
         maiorTamanho = 0;
 
         //Limpando todas as listas
-        for(int x = 0; x < 10; x++)
-        {
+        for(int x = 0; x < 10; x++) {
             comerI[x].limpar();
             comerJ[x].limpar();
         }

@@ -7,17 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
-public class Fim extends JDialog implements ActionListener
-{
+public class Fim extends JDialog implements ActionListener {
     JPanel p1 = new JPanel();
     JPanel p2 = new JPanel();
     JPanel p3 = new JPanel();
     JPanel p4 = new JPanel();
 
     JLabel fundo;
-    JLabel lbVencedor = new JLabel("Vencedor: Bruno");
+    JLabel lbVencedor = new JLabel("Vencedor: Allan");
     JLabel lbTempo = new JLabel("Tempo: 01:26");
 
     JButton btReiniciar = new JButton("Reiniciar");
@@ -29,8 +27,7 @@ public class Fim extends JDialog implements ActionListener
     Player vencedor;
     int tempo;
 
-    public Fim(int modo, int vencedor)
-    {
+    public Fim(int modo, int vencedor) {
         if((modo == 0 && vencedor == 0) || modo == 1)
             fundo = new JLabel(new ImageIcon(getClass().getResource("img/vitoria.png")));
         else
@@ -86,41 +83,33 @@ public class Fim extends JDialog implements ActionListener
         setSize(300, 300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        //setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == btReiniciar)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btReiniciar) {
             dispose();
             jogo.iniciarJogo();
         }
-        else if(e.getSource() == btMenu)
-        {
+        else if(e.getSource() == btMenu) {
             jogo.dispose();
             dispose();
             new Principal();
         }
-        else if(e.getSource() == btSair)
-        {
+        else if(e.getSource() == btSair) {
             System.exit(0);
         }
     }
 
-    public void setTabuleiro(Jogo tb)
-    {
+    public void setTabuleiro(Jogo tb) {
         jogo = tb;
     }
 
-    public void setVencedor(Player winner)
-    {
+    public void setVencedor(Player winner) {
         vencedor = winner;
         lbVencedor.setText("Vencedor: " + vencedor.getNome());
     }
 
-    public void setTempo(int tmp)
-    {
+    public void setTempo(int tmp) {
         tempo = tmp;
         lbTempo.setText(String.format("Tempo: %02d:%02d", tempo/60, tempo%60));
         for(int i = 0; i < 5; i++)
@@ -137,8 +126,7 @@ public class Fim extends JDialog implements ActionListener
             }
     }
 
-    public void mostrar()
-    {
+    public void mostrar() {
         setVisible(true);
     }
 }

@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -12,23 +11,17 @@ public class Cadastro extends JDialog implements ActionListener {
     JPanel p2 = new JPanel();
 
     JButton btSalvar = new JButton("Salvar");
-    JLabel lbNomeJogador1 = new JLabel("Nome do jogador um:");
-    JLabel lbNomeJogador2 = new JLabel("Nome do jogador dois:");
+    JLabel lbNomeJogador = new JLabel("Nome do jogador:");
 
-    JTextField tfNomeJogador1 = new JTextField(20);
-    JTextField tfNomeJogador2 = new JTextField(20);
+    JTextField tfNomeJogador = new JTextField(20);
 
-    public Cadastro()
-    {
-        p1.setLayout(new GridLayout(4, 1));
+    public Cadastro() {
+        p1.setLayout(new GridLayout(2, 1));
         p1.setBorder(new TitledBorder("Cadastro"));
-        p1.add(lbNomeJogador1);
-        p1.add(tfNomeJogador1);
-        p1.add(lbNomeJogador2);
-        p1.add(tfNomeJogador2);
+        p1.add(lbNomeJogador);
+        p1.add(tfNomeJogador);
 
-        tfNomeJogador1.setText(jogador[0].getNome());
-        tfNomeJogador2.setText(jogador[1].getNome());
+        tfNomeJogador.setText(jogador[0].getNome());
 
         p2.setLayout(new BorderLayout());
         p2.add(p1, BorderLayout.CENTER);
@@ -47,17 +40,11 @@ public class Cadastro extends JDialog implements ActionListener {
         setVisible(true);
     }
 
-
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == btSalvar)
-        {
-            jogador[0].setNome(tfNomeJogador1.getText());
-            jogador[1].setNome(tfNomeJogador2.getText());
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btSalvar) {
+            jogador[0].setNome(tfNomeJogador.getText());
             if(jogador[0].getNome().length() == 0)
                 jogador[0].setNome("Branco");
-            if(jogador[1].getNome().length() == 0)
-                jogador[1].setNome("Preto");
             dispose();
         }
     }
