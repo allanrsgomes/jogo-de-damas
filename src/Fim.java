@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 public class Fim extends JDialog implements ActionListener {
@@ -28,10 +27,12 @@ public class Fim extends JDialog implements ActionListener {
     int tempo;
 
     public Fim(int modo, int vencedor) {
-        if((modo == 0 && vencedor == 0) || modo == 1)
-            fundo = new JLabel(new ImageIcon(getClass().getResource("img/vitoria.png")));
-        else
-            fundo = new JLabel(new ImageIcon(getClass().getResource("img/derrota.png")));
+        if((modo == 0 && vencedor == 0) || modo == 1) {
+            fundo = new JLabel(new ImageIcon(getClass().getResource("img/wallpaper.png")));
+        }
+        else{
+            fundo = new JLabel(new ImageIcon(getClass().getResource("img/wallpaper.png")));
+        }
 
         setLayout(new BorderLayout());
         add(fundo);
@@ -58,7 +59,6 @@ public class Fim extends JDialog implements ActionListener {
         p4.add(lbTempo);
         p4.setOpaque(false);
 
-
         btReiniciar.setFocusPainted(false);
         btReiniciar.setBackground(Color.WHITE);
         btReiniciar.addActionListener(this);
@@ -71,11 +71,11 @@ public class Fim extends JDialog implements ActionListener {
         btSair.setBackground(Color.WHITE);
         btSair.addActionListener(this);
 
-        lbVencedor.setForeground(Color.WHITE);
-        lbVencedor.setFont(new Font("Arial", Font.BOLD, 15));
+        lbVencedor.setForeground(Color.BLACK);
+        lbVencedor.setFont(new Font("Arial", Font.BOLD, 30));
 
-        lbTempo.setForeground(Color.WHITE);
-        lbTempo.setFont(new Font("Arial", Font.BOLD, 15));
+        lbTempo.setForeground(Color.BLACK);
+        lbTempo.setFont(new Font("Arial", Font.BOLD, 30));
 
         setUndecorated(true);
         setModal(true);
@@ -113,10 +113,8 @@ public class Fim extends JDialog implements ActionListener {
         tempo = tmp;
         lbTempo.setText(String.format("Tempo: %02d:%02d", tempo/60, tempo%60));
         for(int i = 0; i < 5; i++)
-            if(tempo < Placar.tempo[i] || Placar.nomes[i].length() == 0)
-            {
-                for(int j = 4; j > i; j--)
-                {
+            if(tempo < Placar.tempo[i] || Placar.nomes[i].length() == 0) {
+                for(int j = 4; j > i; j--) {
                     Placar.tempo[j] = Placar.tempo[j-1];
                     Placar.nomes[j] = Placar.nomes[j-1];
                 }

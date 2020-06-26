@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
-
 import javax.swing.*;
 
 public class Jogo extends JFrame implements ActionListener {
@@ -54,10 +53,8 @@ public class Jogo extends JFrame implements ActionListener {
         construtor();
     }
 
-    public void construtor()
-    {
-        for(int i = 0; i < 10; i++)
-        {
+    public void construtor() {
+        for(int i = 0; i < 10; i++) {
             comerI[i] = new Fila(10);
             comerJ[i] = new Fila(10);
         }
@@ -70,14 +67,13 @@ public class Jogo extends JFrame implements ActionListener {
         p5.setLayout(new GridLayout(1, 2));
 
         for(int i = 0; i < 8; i++)
-            for(int j = 0; j < 8; j++)
-            {
+            for(int j = 0; j < 8; j++) {
                 casa[i][j] = new Casa(i, j);
                 p4.add(casa[i][j]);
 
-                //Eventos de clique
-                casa[i][j].addActionListener(this);
-            }
+        //Eventos de clique
+        casa[i][j].addActionListener(this);
+    }
 
         p5.add(p2);
         p2.add(lbJogador);
@@ -94,14 +90,13 @@ public class Jogo extends JFrame implements ActionListener {
         p1.add(p5);
         p1.add(p4);
 
-        add(p1);
+    add(p1);
         p2.setBackground(Color.darkGray);
         p3.setBackground(Color.darkGray);
         p4.setBackground(Color.darkGray);
 
         timer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent arg0)
-            {
+            public void actionPerformed(ActionEvent arg0) {
                 tempo++;
                 lbTempo.setText(String.format("%02d:%02d", (int)(tempo/60), tempo%60));
             }
@@ -118,15 +113,12 @@ public class Jogo extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
-    public void posicionarPecas()
-    {
+    public void posicionarPecas() {
         int pecasInd = 0;
         for(int i = 0; i < 8; i++)
-            for(int j = 0; j < 8; j++)
-            {
+            for(int j = 0; j < 8; j++) {
                 if((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0))
-                    if(i < 3 || i > 4)
-                    {
+                    if(i < 3 || i > 4) {
                         int tipo = 0;
                         if(i > 4)
                             tipo = 1;
@@ -136,16 +128,14 @@ public class Jogo extends JFrame implements ActionListener {
                         casa[i][j].atualizarPeca(peca[pecasInd-1]);
                         casa[i][j].setVazia(false);
                     }
-                    else
-                    {
+                    else {
                         casa[i][j].setVazia(true);
                         casa[i][j].removerPeca();
                     }
             }
     }
 
-    public void marcarPecas()
-    {
+    public void marcarPecas() {
         int inicio;
         if(jogadorDaRodada == 0)
             inicio = 0;
@@ -153,24 +143,17 @@ public class Jogo extends JFrame implements ActionListener {
             inicio = 12;
 
         //Verificando se tem pecas para comer
-
         boolean Comer = false;
         int maior = 0;
-        for(int i = inicio; i < inicio+12; i++)
-        {
-            if(peca[i].emJogo())
-            {
+        for(int i = inicio; i < inicio+12; i++) {
+            if(peca[i].emJogo()) {
                 int I = peca[i].getPosI(), J = peca[i].getPosJ();
                 limparJogadas();
-                if(simularJogada(I, J, true, true, true, true, true, 0, "", peca[i].dama(), ""))
-                {
-                    if(maiorTamanho >= maior)
-                    {
-                        if(maiorTamanho > maior)
-                        {
+                if(simularJogada(I, J, true, true, true, true, true, 0, "", peca[i].dama(), "")) {
+                    if(maiorTamanho >= maior) {
+                        if(maiorTamanho > maior) {
                             maior = maiorTamanho;
-                            for(int j = inicio; j < i; j++)
-                            {
+                            for(int j = inicio; j < i; j++) {
                                 peca[j].setJogavel(false);
                                 peca[j].setComer(false);
                                 casa[peca[j].getPosI()][peca[j].getPosJ()].setMarcada(false);
@@ -186,24 +169,19 @@ public class Jogo extends JFrame implements ActionListener {
             }
         }
 
-        if(!Comer)
-        {
-            for(int i = inicio; i < inicio+12; i++)
-            {
-                if(peca[i].emJogo())
-                {
+        if(!Comer) {
+            for(int i = inicio; i < inicio+12; i++) {
+                if(peca[i].emJogo()) {
                     int I = peca[i].getPosI(), J = peca[i].getPosJ();
                     boolean Valida = false;
                     //Verificando se nao esta nas laterais
-                    if(!peca[i].dama())
-                    {
+                    if(!peca[i].dama()) {
                         if(jogadorDaRodada == 1 && I != 0 && ((J != 7 && casa[I-1][J+1].vazia()) || (J != 0 && casa[I-1][J-1].vazia())))
                             Valida = true;//Pecas brancas
                         else if(jogadorDaRodada == 0 && I != 7 && ((J != 7 && casa[I+1][J+1].vazia()) || (J != 0 && casa[I+1][J-1].vazia())))
                             Valida = true;//Pecas pretas
                     }
-                    else
-                    {
+                    else {
                         if(I != 0 && ((J != 0 && casa[I-1][J-1].vazia()) || (J != 7 && casa[I-1][J+1].vazia())))
                             Valida = true;
                         else if(I != 7 && ((J != 0 && casa[I+1][J-1].vazia()) || (J != 7 && casa[I+1][J+1].vazia())))
@@ -218,14 +196,12 @@ public class Jogo extends JFrame implements ActionListener {
         }
     }
 
-    public static void moverPeca(Casa origem, Casa destino)
-    {
+    public static void moverPeca(Casa origem, Casa destino) {
         destino.atualizarPeca(origem.pecaAtual());
         destino.pecaAtual().setPosI(destino.getPosI());
         destino.pecaAtual().setPosJ(destino.getPosJ());
         destino.setVazia(false);
-        if(!destino.pecaAtual().dama() && ((destino.getPosI() == 0 && destino.pecaAtual().getTipo() == 1) || (destino.getPosI() == 7 && destino.pecaAtual().getTipo() == 0)))
-        {
+        if(!destino.pecaAtual().dama() && ((destino.getPosI() == 0 && destino.pecaAtual().getTipo() == 1) || (destino.getPosI() == 7 && destino.pecaAtual().getTipo() == 0))) {
             destino.pecaAtual().tornarDama();
             destino.atualizarPeca(destino.pecaAtual());
         }
@@ -233,17 +209,14 @@ public class Jogo extends JFrame implements ActionListener {
         origem.setVazia(true);
     }
 
-    public void marcarPeca(Casa casa)
-    {
+    public void marcarPeca(Casa casa) {
         casa.setBackground(Color.decode("#09eb79"));
         casa.pecaAtual().setJogavel(true);
     }
 
-    public void desmarcarCasas(int modo)
-    {
+    public void desmarcarCasas(int modo){
         for(int i = 0; i < 8; i++)
-            for(int j = 0; j < 8; j++)
-            {
+            for(int j = 0; j < 8; j++) {
                 if(modo == 1 && !casa[i][j].vazia() && casa[i][j].pecaAtual().jogavel())
                     casa[i][j].pecaAtual().setJogavel(false);
 
@@ -251,21 +224,16 @@ public class Jogo extends JFrame implements ActionListener {
             }
     }
 
-    public void actionPerformed(ActionEvent evento)
-    {
+    public void actionPerformed(ActionEvent evento) {
         //Marcando as possiveis jogadas
         boolean Origem = true;
         for(int i = 0; i < 8 && Origem; i++)
-            for(int j = 0; j < 8 && Origem; j++)
-            {
-                if(casa[i][j] == evento.getSource())
-                {
+            for(int j = 0; j < 8 && Origem; j++) {
+                if(casa[i][j] == evento.getSource()) {
                     //Jogadas de movimento
-                    if(!casa[i][j].vazia() && !casa[i][j].marcada())
-                    {
+                    if(!casa[i][j].vazia() && !casa[i][j].marcada()){
                         desmarcarCasas(0);
-                        if(casa[i][j].pecaAtual().jogavel())
-                        {
+                        if(casa[i][j].pecaAtual().jogavel()) {
                             clickI = i;
                             clickJ = j;
 
@@ -293,8 +261,7 @@ public class Jogo extends JFrame implements ActionListener {
             }
     }
 
-    public void proximaRodada()
-    {
+    public void proximaRodada() {
         if(Cadastro.jogador[0].getPecas() != 0 && Cadastro.jogador[1].getPecas() != 0) {
             lbJogador.setText("Jogador " + Cadastro.jogador[jogadorDaRodada].getNome());
             if(jogadorDaRodada == 1)
@@ -496,7 +463,6 @@ public class Jogo extends JFrame implements ActionListener {
                 movDiagonal = true;
         }
 
-
         if(!comer && mover && dama && !movDiagonal) {
             String movAux = mov;
             if(i >= 1 && j >= 1 && f1 && casa[i-1][j-1].vazia()) {
@@ -537,7 +503,7 @@ public class Jogo extends JFrame implements ActionListener {
                 }
                 mov = movAux;
             }
-
+            //Verificando o movimento para baixo e esquerda
             if(i <= 6 && j <= 6 && t2 && casa[i+1][j+1].vazia()) {
                 for(int I = i+1, J = j+1; I <= 7 && J <= 7; I++, J++) {
                     if(!casa[I][J].vazia())

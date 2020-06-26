@@ -13,9 +13,9 @@ public class Placar extends JDialog implements ActionListener {
     JPanel p1 = new JPanel();
     JPanel p2 = new JPanel();
 
+
     JButton btFechar = new JButton("Fechar");
     JLabel lbNomeJogador = new JLabel("Nome do jogador:");
-
     JLabel lbRanking[][] = new JLabel[5][2];
 
     public Placar() {

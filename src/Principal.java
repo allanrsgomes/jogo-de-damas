@@ -21,7 +21,7 @@ public class Principal extends JFrame implements ActionListener {
         fundo.setLayout(new FlowLayout(FlowLayout.CENTER));
         fundo.add(p1);
 
-        p1.setLayout(new GridLayout(1, 1));
+        p1.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         // Botão cadastro
         p1.add(btCadastro);
