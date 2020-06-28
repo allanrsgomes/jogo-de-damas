@@ -1,6 +1,9 @@
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.*;
 
 public class Principal extends JFrame implements ActionListener {
@@ -50,10 +53,11 @@ public class Principal extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Encerra o programa quando a janela é fechada
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Cadastro.jogador[0] = new Player("Branco");
         Cadastro.jogador[1] = new Player("PC");
         new Principal();
+        criaRanking();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -62,10 +66,27 @@ public class Principal extends JFrame implements ActionListener {
         }
         else if(e.getSource() == btJogar) {
             dispose(); //Liberar a memória que a janela está utilizando
-            new Jogo(); // inicia o jogo
+            try {
+                new Jogo(); // inicia o jogo
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         else if(e.getSource() == btResultados) {
             new Placar(); // mostra resultados anteriores
+        }
+    }
+
+    public static void criaRanking() throws IOException{
+        /*Insere ranking pelo arquivo resultados*/
+        int i=0;
+        for(Ranking linha: Ranking.getRanking()){
+            if(i < 5){
+                Placar.nomes[i] = linha.getNome();
+                Placar.qtd[i] = linha.getQtd();
+                Placar.tempo[i] = linha.getTempo();
+            }
+            i++;
         }
     }
 }

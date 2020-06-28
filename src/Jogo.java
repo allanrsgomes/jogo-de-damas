@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Random;
 import javax.swing.*;
 
@@ -43,17 +44,16 @@ public class Jogo extends JFrame implements ActionListener {
 
     BTimer bTimer = new BTimer();
 
-    public Jogo()
-    {
+    public Jogo() throws IOException {
         construtor();
     }
 
-    public Jogo(int inicia) {
+    public Jogo(int inicia) throws IOException {
         jogadorDaRodada = inicia;
         construtor();
     }
 
-    public void construtor() {
+    public void construtor() throws IOException {
         for(int i = 0; i < 10; i++) {
             comerI[i] = new Fila(10);
             comerJ[i] = new Fila(10);
@@ -73,7 +73,7 @@ public class Jogo extends JFrame implements ActionListener {
 
         //Eventos de clique
         casa[i][j].addActionListener(this);
-    }
+        }
 
         p5.add(p2);
         p2.add(lbJogador);
@@ -90,7 +90,7 @@ public class Jogo extends JFrame implements ActionListener {
         p1.add(p5);
         p1.add(p4);
 
-    add(p1);
+        add(p1);
         p2.setBackground(Color.darkGray);
         p3.setBackground(Color.darkGray);
         p4.setBackground(Color.darkGray);
@@ -253,7 +253,11 @@ public class Jogo extends JFrame implements ActionListener {
                     {
                         desmarcarCasas(1);
                         moverPeca(casa[clickI][clickJ], casa[i][j]);
-                        proximaRodada();
+                        try {
+                            proximaRodada();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     Origem = false;
@@ -261,7 +265,7 @@ public class Jogo extends JFrame implements ActionListener {
             }
     }
 
-    public void proximaRodada() {
+    public void proximaRodada() throws IOException {
         if(Cadastro.jogador[0].getPecas() != 0 && Cadastro.jogador[1].getPecas() != 0) {
             lbJogador.setText("Jogador " + Cadastro.jogador[jogadorDaRodada].getNome());
             if(jogadorDaRodada == 1)
@@ -285,6 +289,9 @@ public class Jogo extends JFrame implements ActionListener {
                 timer.stop();
                 if(Cadastro.jogador[vencedor].getMelhorTempo() > tempo)
                     Cadastro.jogador[vencedor].setMelhorTempo(tempo);
+
+                Arquivo arquivo = new Arquivo();
+                arquivo.salvarGanhador(Cadastro.jogador[vencedor].getNome(), tempo);
 
                 Fim end = new Fim(0, vencedor);
                 end.setTabuleiro(this);
@@ -419,7 +426,7 @@ public class Jogo extends JFrame implements ActionListener {
         limparJogadas();
     }
 
-    public void iniciarJogo() {
+    public void iniciarJogo() throws IOException {
         tempo = 0;
         posicionarPecas();
         timer.start();
@@ -690,7 +697,11 @@ public class Jogo extends JFrame implements ActionListener {
                 indCasa = 0;
                 cont = 0;
                 timer.setInitialDelay(450);
-                proximaRodada();
+                try {
+                    proximaRodada();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
             else if(cont < indCasa) {
                 timer.start();

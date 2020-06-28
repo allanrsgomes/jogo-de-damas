@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOError;
+import java.io.IOException;
 import javax.swing.*;
 
 public class Fim extends JDialog implements ActionListener {
@@ -14,8 +16,8 @@ public class Fim extends JDialog implements ActionListener {
     JPanel p4 = new JPanel();
 
     JLabel fundo;
-    JLabel lbVencedor = new JLabel("Vencedor: Allan");
-    JLabel lbTempo = new JLabel("Tempo: 01:26");
+    JLabel lbVencedor = new JLabel();
+    JLabel lbTempo = new JLabel();
 
     JButton btReiniciar = new JButton("Reiniciar");
     JButton btMenu = new JButton("Voltar ao menu");
@@ -72,10 +74,10 @@ public class Fim extends JDialog implements ActionListener {
         btSair.addActionListener(this);
 
         lbVencedor.setForeground(Color.BLACK);
-        lbVencedor.setFont(new Font("Arial", Font.BOLD, 30));
+        lbVencedor.setFont(new Font("Arial", Font.BOLD, 15));
 
         lbTempo.setForeground(Color.BLACK);
-        lbTempo.setFont(new Font("Arial", Font.BOLD, 30));
+        lbTempo.setFont(new Font("Arial", Font.BOLD, 15));
 
         setUndecorated(true);
         setModal(true);
@@ -88,12 +90,17 @@ public class Fim extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btReiniciar) {
             dispose();
-            jogo.iniciarJogo();
+            try {
+                jogo.iniciarJogo();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         else if(e.getSource() == btMenu) {
             jogo.dispose();
             dispose();
-            new Principal();
+            new Principal() ;
+
         }
         else if(e.getSource() == btSair) {
             System.exit(0);
@@ -112,7 +119,7 @@ public class Fim extends JDialog implements ActionListener {
     public void setTempo(int tmp) {
         tempo = tmp;
         lbTempo.setText(String.format("Tempo: %02d:%02d", tempo/60, tempo%60));
-        for(int i = 0; i < 5; i++)
+        /*for(int i = 0; i < 5; i++)
             if(tempo < Placar.tempo[i] || Placar.nomes[i].length() == 0) {
                 for(int j = 4; j > i; j--) {
                     Placar.tempo[j] = Placar.tempo[j-1];
@@ -121,7 +128,7 @@ public class Fim extends JDialog implements ActionListener {
                 Placar.tempo[i] = tempo;
                 Placar.nomes[i] = vencedor.getNome();
                 break;
-            }
+            }*/
     }
 
     public void mostrar() {
